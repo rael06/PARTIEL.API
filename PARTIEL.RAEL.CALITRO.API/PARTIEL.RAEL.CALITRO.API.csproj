@@ -19,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,8 @@
     <Folder Include="Models\" />
     <Folder Include="Core\" />
     <Folder Include="Core\CSV\" />
+    <Folder Include="Models\MusicDto\" />
+    <Folder Include="Services\DtoServices\MusicService\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PARTIEL.RAEL.CALITRO.API.DATA\PARTIEL.RAEL.CALITRO.API.DATA.csproj">
