@@ -11,6 +11,7 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
         Task<Artist> Get(int id);
         Task<Artist> Post(Artist artist);
         Task<int> Put(Artist artist);
+        Task<int> AddMusics(Artist artist);
         Task<int> Delete(int id);
     }
 }

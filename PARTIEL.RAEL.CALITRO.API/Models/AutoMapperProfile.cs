@@ -13,10 +13,12 @@ namespace PARTIEL.RAEL.CALITRO.API.Models
             CreateMap<Artist, ArtistReadDto>().ReverseMap();
             CreateMap<Artist, ArtistWriteDto>().ReverseMap();
             CreateMap<Artist, ArtistUpdateDto>().ReverseMap();
+            CreateMap<Artist, ArtistAddMusicsDto>().ReverseMap();
 
             CreateMap<Music, MusicReadDto>().ReverseMap();
             CreateMap<Music, MusicWriteDto>().ReverseMap().ForMember(dest => dest.ArtistId, opt => opt.AddTransform(x => x == 0 ? null : x));
             CreateMap<Music, MusicUpdateDto>().ReverseMap().ForMember(dest => dest.ArtistId, opt => opt.AddTransform(x => x == 0 ? null : x));
+            CreateMap<Music, MusicToAddDto>().ReverseMap().ForMember(dest => dest.ArtistId, opt => opt.AddTransform(x => x == 0 ? null : x));
         }
     }
 }

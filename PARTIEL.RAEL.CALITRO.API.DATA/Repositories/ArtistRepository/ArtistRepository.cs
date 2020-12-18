@@ -62,9 +62,32 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
             return result;
         }
 
+        public async Task<int> AddMusics(Artist artist)
+        {
+            var musics = new List<Music>();
+            foreach (var music in artist.Musics)
+            {
+                if (await MusicExistsAsync(music.Id)) musics.Add(music);
+            }
+
+            var artistDB = await Get(artist.Id);
+
+            if (artistDB is null) return -1;
+            if (musics.Count == 0) return 0;
+
+            artistDB.Musics = musics;
+            return await Put(artistDB);
+        }
+
         private async Task<bool> ArtistExistsAsync(int id)
         {
             return await _context.Artists.AnyAsync(x => x.Id == id);
         }
+
+        private async Task<bool> MusicExistsAsync(int id)
+        {
+            return await _context.Musics.AnyAsync(x => x.Id == id);
+        }
+
     }
 }

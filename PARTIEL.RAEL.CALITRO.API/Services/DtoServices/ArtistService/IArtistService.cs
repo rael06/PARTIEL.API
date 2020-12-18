@@ -12,5 +12,6 @@ namespace PARTIEL.RAEL.CALITRO.API.Services.DtoServices.ArtistService
         Task<ArtistReadDto> Post(ArtistWriteDto artistWriteDto);
         Task<int> Put(ArtistUpdateDto artistUpdateDto);
         Task<int> Delete(int id);
+        Task<int> Put(ArtistAddMusicsDto artistAddMusicsDto);
     }
 }

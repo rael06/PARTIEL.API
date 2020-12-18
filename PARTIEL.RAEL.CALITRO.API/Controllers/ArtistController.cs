@@ -51,6 +51,19 @@ namespace PARTIEL.RAEL.CALITRO.API.Controllers
             return (result == -1) ? NotFound() : NoContent();
         }
 
+        [HttpPut("{id}/addMusics")]
+        public async Task<ActionResult> AddMusics(int id, [FromBody] ArtistAddMusicsDto artistAddMusicsDto)
+        {
+            if (id != artistAddMusicsDto.Id)
+            {
+                return BadRequest();
+            }
+
+
+            var result = await _artistService.Put(artistAddMusicsDto);
+            return (result == -1) ? NotFound() : NoContent();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
