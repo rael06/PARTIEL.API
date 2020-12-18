@@ -47,15 +47,23 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository
             {
                 result = await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!await MusicExistsAsync(music.Id))
+                result = 1;
+                if (ex is DbUpdateConcurrencyException || ex is DbUpdateException)
                 {
-                    result = -1;
-                }
-                else
-                {
-                    throw;
+                    if (!await MusicExistsAsync(music.Id))
+                    {
+                        result = -1;
+                    }
+                    else if (!await ArtistExistsAsync(music.ArtistId))
+                    {
+                        result = 0;
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
             return result;
@@ -64,6 +72,13 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository
         private async Task<bool> MusicExistsAsync(int id)
         {
             return await _context.Musics.AnyAsync(x => x.Id == id);
+        }
+
+        private async Task<bool> ArtistExistsAsync(int? id)
+        {
+            if (id is null) return false;
+
+            return await _context.Artists.AnyAsync(x => x.Id == id);
         }
     }
 }

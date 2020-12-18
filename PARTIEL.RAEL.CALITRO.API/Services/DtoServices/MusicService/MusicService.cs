@@ -17,20 +17,21 @@ namespace PARTIEL.RAEL.CALITRO.API.Services.DtoServices.MusicService
             _musicRepository = musicRepository;
         }
 
-        public Task<int> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<MusicReadDto> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ICollection<MusicReadDto>> GetAll()
         {
             var musics = await _musicRepository.GetAll();
             return _mapper.Map<List<MusicReadDto>>(musics);
+        }
+
+        public async Task<int> Delete(int id)
+        {
+            return await _musicRepository.Delete(id);
+        }
+
+        public async Task<MusicReadDto> Get(int id)
+        {
+            var musicDB = await _musicRepository.Get(id);
+            return musicDB is null ? null : _mapper.Map<MusicReadDto>(musicDB);
         }
 
         public async Task<MusicReadDto> Post(MusicWriteDto musicWriteDto)
@@ -40,9 +41,10 @@ namespace PARTIEL.RAEL.CALITRO.API.Services.DtoServices.MusicService
             return _mapper.Map<MusicReadDto>(musicDB);
         }
 
-        public Task<int> Put(MusicUpdateDto musicUpdateDto)
+        public async Task<int> Put(MusicUpdateDto musicUpdateDto)
         {
-            throw new NotImplementedException();
+            var musicDB = _mapper.Map<Music>(musicUpdateDto);
+            return await _musicRepository.Put(musicDB);
         }
     }
 }

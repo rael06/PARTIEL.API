@@ -13,6 +13,6 @@ namespace PARTIEL.RAEL.CALITRO.API.Models.MusicDto
         public string Url { get; init; }
 
         [CSV(4)]
-        public int ArtistId { get; init; }
+        public int? ArtistId { get; init; }
     }
 }
