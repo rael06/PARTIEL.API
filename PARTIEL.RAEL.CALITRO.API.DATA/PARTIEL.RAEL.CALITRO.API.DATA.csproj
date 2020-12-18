@@ -11,5 +11,6 @@
     <Folder Include="Models\" />
     <Folder Include="Repositories\" />
     <Folder Include="Repositories\MusicRepository\" />
+    <Folder Include="Repositories\ArtistRepository\" />
   </ItemGroup>
 </Project>

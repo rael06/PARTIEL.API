@@ -22,5 +22,14 @@ namespace PARTIEL.RAEL.CALITRO.API.Controllers
 
         [HttpGet]
         public async Task<ICollection<MusicReadDto>> GetAll() => await _musicService.GetAll();
+
+
+        [HttpPost]
+        public async Task<ActionResult<MusicReadDto>> Post(MusicWriteDto musicWriteDto)
+        {
+            if (musicWriteDto is null) return BadRequest("Error decoding your body");
+            var musicReadDto = await _musicService.Post(musicWriteDto);
+            return CreatedAtAction("Get", new { id = musicReadDto.Id }, musicReadDto);
+        }
     }
 }

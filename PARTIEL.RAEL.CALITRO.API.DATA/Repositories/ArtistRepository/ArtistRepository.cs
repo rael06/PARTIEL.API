@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PARTIEL.RAEL.CALITRO.API.DATA.Models;
 
-namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository
+namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
 {
-    public class MusicRepository : IMusicRepository
+    public class ArtistRepository : IArtistRepository
     {
         private readonly MyContext _context;
 
-        public MusicRepository(MyContext context)
+        public ArtistRepository(MyContext context)
         {
             _context = context;
         }
@@ -20,21 +20,21 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository
             throw new NotImplementedException();
         }
 
-        public Task<Music> Get(int id)
+        public Task<Artist> Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<Music>> GetAll() => await _context.Musics.ToListAsync();
+        public async Task<ICollection<Artist>> GetAll() => await _context.Artists.ToListAsync();
 
-        public async Task<Music> Post(Music music)
+        public async Task<Artist> Post(Artist artist)
         {
-            _context.Musics.Add(music);
+            _context.Artists.Add(artist);
             await _context.SaveChangesAsync();
-            return music;
+            return artist;
         }
 
-        public Task<int> Put(Music music)
+        public Task<int> Put(Artist artist)
         {
             throw new NotImplementedException();
         }

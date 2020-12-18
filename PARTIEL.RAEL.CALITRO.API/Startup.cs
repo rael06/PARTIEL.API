@@ -15,7 +15,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PARTIEL.RAEL.CALITRO.API.Core.CSV;
 using PARTIEL.RAEL.CALITRO.API.DATA;
+using PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository;
 using PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository;
+using PARTIEL.RAEL.CALITRO.API.Services.DtoServices.ArtistService;
 using PARTIEL.RAEL.CALITRO.API.Services.DtoServices.MusicService;
 
 namespace PARTIEL.RAEL.CALITRO.API
@@ -44,7 +46,9 @@ namespace PARTIEL.RAEL.CALITRO.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PARTIEL.RAEL.CALITRO.API", Version = "v1" });
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IMusicRepository, MusicRepository>();
+            services.AddScoped<IArtistService, ArtistService>();
             services.AddScoped<IMusicService, MusicService>();
         }
 
