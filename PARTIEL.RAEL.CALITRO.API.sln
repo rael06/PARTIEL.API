@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PARTIEL.RAEL.CALITRO.API", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PARTIEL.RAEL.CALITRO.API.DATA", "PARTIEL.RAEL.CALITRO.API.DATA\PARTIEL.RAEL.CALITRO.API.DATA.csproj", "{9EC4A992-D699-422F-A167-10260E9D5376}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D8BA176-8F36-4CDC-8348-DAF2D9C261AA}"
+	ProjectSection(SolutionItems) = preProject
+		README.txt = README.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
