@@ -29,7 +29,7 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
 
         public async Task<Artist> Get(int id)
         {
-            return await _context.Artists.FindAsync(id);
+            return await _context.Artists.Include(x => x.Musics).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Artist> Post(Artist artist)
