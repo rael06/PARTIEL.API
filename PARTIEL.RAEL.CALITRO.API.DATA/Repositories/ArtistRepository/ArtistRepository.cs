@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PARTIEL.RAEL.CALITRO.API.DATA.Models;
@@ -15,17 +16,21 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
             _context = context;
         }
 
-        public Task<int> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Artist> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ICollection<Artist>> GetAll() => await _context.Artists.ToListAsync();
+
+        public async Task<int> Delete(int id)
+        {
+            var artist = await Get(id);
+            if (artist is null)
+                return -1;
+            _context.Artists.Remove(artist);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<Artist> Get(int id)
+        {
+            return await _context.Artists.FindAsync(id);
+        }
 
         public async Task<Artist> Post(Artist artist)
         {
@@ -34,9 +39,32 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
             return artist;
         }
 
-        public Task<int> Put(Artist artist)
+        public async Task<int> Put(Artist artist)
         {
-            throw new NotImplementedException();
+            _context.Entry(artist).State = EntityState.Modified;
+
+            int result;
+            try
+            {
+                result = await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await ArtistExistsAsync(artist.Id))
+                {
+                    result = -1;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return result;
+        }
+
+        private async Task<bool> ArtistExistsAsync(int id)
+        {
+            return await _context.Artists.AnyAsync(x => x.Id == id);
         }
     }
 }

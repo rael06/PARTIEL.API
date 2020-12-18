@@ -23,6 +23,12 @@ namespace PARTIEL.RAEL.CALITRO.API.Controllers
         [HttpGet]
         public async Task<ICollection<ArtistReadDto>> GetAll() => await _artistService.GetAll();
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ArtistReadDto>> Get(int id)
+        {
+            var artistReadDto = await _artistService.Get(id);
+            return artistReadDto is null ? NotFound() : Ok(artistReadDto);
+        }
 
         [HttpPost]
         public async Task<ActionResult<ArtistReadDto>> Post(ArtistWriteDto artistWriteDto)
@@ -30,6 +36,26 @@ namespace PARTIEL.RAEL.CALITRO.API.Controllers
             if (artistWriteDto is null) return BadRequest("Error decoding your body");
             var artistReadDto = await _artistService.Post(artistWriteDto);
             return CreatedAtAction("Get", new { id = artistReadDto.Id }, artistReadDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] ArtistUpdateDto artistUpdateDto)
+        {
+            if (id != artistUpdateDto.Id)
+            {
+                return BadRequest();
+            }
+
+
+            var result = await _artistService.Put(artistUpdateDto);
+            return (result == -1) ? NotFound() : NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCourse(int id)
+        {
+            var result = await _artistService.Delete(id);
+            return (result == -1) ? NotFound() : NoContent();
         }
     }
 }

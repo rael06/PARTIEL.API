@@ -15,17 +15,21 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository
             _context = context;
         }
 
-        public Task<int> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Music> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ICollection<Music>> GetAll() => await _context.Musics.ToListAsync();
+
+        public async Task<int> Delete(int id)
+        {
+            var music = await Get(id);
+            if (music is null)
+                return -1;
+            _context.Musics.Remove(music);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<Music> Get(int id)
+        {
+            return await _context.Musics.FindAsync(id);
+        }
 
         public async Task<Music> Post(Music music)
         {
@@ -34,9 +38,32 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository
             return music;
         }
 
-        public Task<int> Put(Music music)
+        public async Task<int> Put(Music music)
         {
-            throw new NotImplementedException();
+            _context.Entry(music).State = EntityState.Modified;
+
+            int result;
+            try
+            {
+                result = await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await MusicExistsAsync(music.Id))
+                {
+                    result = -1;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return result;
+        }
+
+        private async Task<bool> MusicExistsAsync(int id)
+        {
+            return await _context.Musics.AnyAsync(x => x.Id == id);
         }
     }
 }
