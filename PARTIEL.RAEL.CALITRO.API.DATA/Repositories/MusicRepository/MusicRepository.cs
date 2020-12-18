@@ -33,6 +33,7 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository
 
         public async Task<Music> Post(Music music)
         {
+            if (music.ArtistId is not null && !await ArtistExistsAsync(music.ArtistId)) return null;
             _context.Musics.Add(music);
             await _context.SaveChangesAsync();
             return music;

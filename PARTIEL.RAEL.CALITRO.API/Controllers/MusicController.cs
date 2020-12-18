@@ -35,7 +35,7 @@ namespace PARTIEL.RAEL.CALITRO.API.Controllers
         {
             if (musicWriteDto is null) return BadRequest("Error decoding your body");
             var musicReadDto = await _musicService.Post(musicWriteDto);
-            return CreatedAtAction("Get", new { id = musicReadDto.Id }, musicReadDto);
+            return musicReadDto is null ? NotFound("Artist not found") : CreatedAtAction("Get", new { id = musicReadDto.Id }, musicReadDto);
         }
 
         [HttpPut("{id}")]
