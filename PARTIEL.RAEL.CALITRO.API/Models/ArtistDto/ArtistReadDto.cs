@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using PARTIEL.RAEL.CALITRO.API.Core.CSV;
+using PARTIEL.RAEL.CALITRO.API.Models.MusicDto;
 
 namespace PARTIEL.RAEL.CALITRO.API.Models.ArtistDto
 {
@@ -11,5 +13,7 @@ namespace PARTIEL.RAEL.CALITRO.API.Models.ArtistDto
         public string Name { get; init; }
         [CSV(3)]
         public string Image { get; init; }
+
+        public List<MusicReadDto> Musics { get; init; }
     }
 }

@@ -16,7 +16,7 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
             _context = context;
         }
 
-        public async Task<ICollection<Artist>> GetAll() => await _context.Artists.ToListAsync();
+        public async Task<ICollection<Artist>> GetAll() => await _context.Artists.Include(x => x.Musics).ToListAsync();
 
         public async Task<int> Delete(int id)
         {
