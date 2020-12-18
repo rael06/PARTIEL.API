@@ -4,16 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PARTIEL.RAEL.CALITRO.API.DATA.Models;
+using PARTIEL.RAEL.CALITRO.API.DATA.Repositories.MusicRepository;
 
 namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
 {
     public class ArtistRepository : IArtistRepository
     {
         private readonly MyContext _context;
+        private readonly IMusicRepository _musicRepository;
 
-        public ArtistRepository(MyContext context)
+        public ArtistRepository(MyContext context, IMusicRepository musicRepository)
         {
             _context = context;
+            _musicRepository = musicRepository;
         }
 
         public async Task<ICollection<Artist>> GetAll() => await _context.Artists.Include(x => x.Musics).ToListAsync();
@@ -64,30 +67,20 @@ namespace PARTIEL.RAEL.CALITRO.API.DATA.Repositories.ArtistRepository
 
         public async Task<int> AddMusics(Artist artist)
         {
-            var musics = new List<Music>();
+            if (!await ArtistExistsAsync(artist.Id)) return -1;
             foreach (var music in artist.Musics)
             {
-                if (await MusicExistsAsync(music.Id)) musics.Add(music);
+                var musicDB = await _musicRepository.Get(music.Id);
+                if (musicDB is null) return 0;
+                musicDB.ArtistId = artist.Id;
+                await _musicRepository.Put(musicDB);
             }
-
-            var artistDB = await Get(artist.Id);
-
-            if (artistDB is null) return -1;
-            if (musics.Count == 0) return 0;
-
-            artistDB.Musics = musics;
-            return await Put(artistDB);
+            return 1;
         }
 
         private async Task<bool> ArtistExistsAsync(int id)
         {
             return await _context.Artists.AnyAsync(x => x.Id == id);
         }
-
-        private async Task<bool> MusicExistsAsync(int id)
-        {
-            return await _context.Musics.AnyAsync(x => x.Id == id);
-        }
-
     }
 }

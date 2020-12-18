@@ -50,7 +50,7 @@ namespace PARTIEL.RAEL.CALITRO.API.Services.DtoServices.ArtistService
         public async Task<int> Put(ArtistAddMusicsDto artistAddMusicsDto)
         {
             var artistDB = _mapper.Map<Artist>(artistAddMusicsDto);
-            return await _artistRepository.Put(artistDB);
+            return await _artistRepository.AddMusics(artistDB);
         }
     }
 }

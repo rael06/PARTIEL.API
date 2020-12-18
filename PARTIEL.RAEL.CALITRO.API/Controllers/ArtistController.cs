@@ -61,7 +61,14 @@ namespace PARTIEL.RAEL.CALITRO.API.Controllers
 
 
             var result = await _artistService.Put(artistAddMusicsDto);
-            return (result == -1) ? NotFound() : NoContent();
+            switch (result)
+            {
+                case -1:
+                    return NotFound("Artist not found");
+                case 0:
+                    return NotFound("At least one music is not found");
+            }
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
